@@ -2,6 +2,7 @@ package top.thttnt.mangoframework.plugin
 
 import org.reflections.Reflections
 import top.thttnt.mangoframework.MangoFramework
+import top.thttnt.mangoframework.command.CommandManager
 import top.thttnt.mangoframework.log.Logger
 import java.io.File
 import java.net.URLClassLoader
@@ -66,11 +67,17 @@ object PluginManager {
         }
     }
 
-    fun disableAllPlugin() {
+    fun unloadAllPlugins() {
         this.plugins.forEach {
-            MangoFramework.logger.log("Unloading plugin ${it.getName()}...")
-            it.onDisable()
+            unload(it)
         }
+        this.plugins.clear()
+    }
+
+    fun unload(plugin: MangoPlugin) {
+        MangoFramework.logger.log("Unloading plugin ${plugin.getName()}...")
+        plugin.onDisable()
+        CommandManager.unregisterCommand(plugin)
     }
 
 

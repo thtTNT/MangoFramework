@@ -25,7 +25,7 @@ object MangoFramework {
     fun shutdown() {
         logger.log("MangoFramework is stopping...")
         logger.log("Unloading plugins...")
-        PluginManager.disableAllPlugin()
+        PluginManager.unloadAllPlugins()
         logger.log("MangoFramework has been stopped!")
         System.exit(0)
     }
