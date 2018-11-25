@@ -3,6 +3,7 @@ package top.thttnt.mangoframework
 import top.thttnt.mangoframework.command.CommandManager
 import top.thttnt.mangoframework.configuration.FileConfiguration
 import top.thttnt.mangoframework.log.Logger
+import top.thttnt.mangoframework.plugin.PluginManager
 import java.io.File
 import java.io.FileOutputStream
 
@@ -15,6 +16,7 @@ object MangoFramework {
         val start = System.currentTimeMillis()
         logger.log("MangoFramework is starting...")
         Config.init()
+        PluginManager.loadAll()
         logger.log("MangoFramework is made for built your custom server. We are still working on it, so it maybe unstable. Thank for your supporting. ")
         logger.log("Done!(time: ${(System.currentTimeMillis() - start).toDouble()/1000}s)")
         CommandManager.listen()

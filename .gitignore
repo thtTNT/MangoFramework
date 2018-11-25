@@ -1,6 +1,8 @@
 #测试目录
 /run
 /target
+/out
 
 #idea
 /.idea
+*.iml

@@ -6,7 +6,7 @@ import kotlin.collections.HashMap
 
 object CommandManager {
 
-    private val commandExecutors = HashMap<String, CommandExecutor>()
+    private val commandExecutors = TreeMap<String, CommandExecutor>()
 
     fun listen() {
         while (true) {
@@ -14,6 +14,10 @@ object CommandManager {
             val line = scanner.nextLine()
             handleCommand(line)
         }
+    }
+
+    fun getCommands(){
+
     }
 
     fun handleCommand(cmd: String) {
