@@ -1,8 +1,8 @@
 package top.thttnt.mangoframework
 
+import top.thttnt.mangoframework.command.CommandManager
 import top.thttnt.mangoframework.configuration.FileConfiguration
 import top.thttnt.mangoframework.log.Logger
-import top.thttnt.mangoframework.network.Network
 import java.io.File
 import java.io.FileOutputStream
 
@@ -15,22 +15,13 @@ object MangoFramework {
         val start = System.currentTimeMillis()
         logger.log("MangoFramework is starting...")
         Config.init()
-        Network.init()
         logger.log("MangoFramework is made for built your custom server. We are still working on it, so it maybe unstable. Thank for your supporting. ")
         logger.log("Done!(time: ${(System.currentTimeMillis() - start).toDouble()/1000}s)")
+        CommandManager.listen()
     }
 }
 
 object Config {
-
-    object Socket{
-        var port = 12001
-
-        fun init(config: FileConfiguration){
-            val section = config.getSection("socket")
-            port = section?.getInt("port") ?: 12001
-        }
-    }
 
     fun init() {
         MangoFramework.logger.log("Loading config...")
@@ -45,7 +36,6 @@ object Config {
             fos.close()
         }
         val config = FileConfiguration.load(file)
-        Socket.init(config)
     }
 }
 
