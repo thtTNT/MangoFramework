@@ -13,7 +13,7 @@
     </properties>
 
     <dependencies>
-        <!--YAML支持库-->
+        <!-- YAML支持库 -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
@@ -24,6 +24,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.53</version>
+        </dependency>
+        <!-- ClassPath扫描 -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

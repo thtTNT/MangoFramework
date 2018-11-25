@@ -1,5 +1,6 @@
 package top.thttnt.mangoframework.plugin
 
+import org.reflections.Reflections
 import top.thttnt.mangoframework.MangoFramework
 import top.thttnt.mangoframework.log.Logger
 import java.io.File
@@ -29,6 +30,7 @@ object PluginManager {
                 val jarEntry = es.nextElement()
                 val name = jarEntry.name
                 if (name != null && name.endsWith(".class", false)) {
+                    Class.forName(name.replace("/", ".").substring(0, name.length - 6), false, loader)
                     val clazz = loader.loadClass(name.replace("/", ".").substring(0, name.length - 6))
                     if (clazz.isAnnotationPresent(PluginInfo::class.java) && MangoPlugin::class.java.isAssignableFrom(clazz)) {
                         addPlugin(clazz)
@@ -36,6 +38,8 @@ object PluginManager {
                 }
             }
         }
+        val reflection = Reflections("")
+        reflection.getTypesAnnotatedWith(PluginInfo::class.java).forEach { addPlugin(it) }
         MangoFramework.logger.log("detect ${plugins.size} plugins.")
         enableAllPlugin()
     }
@@ -50,12 +54,22 @@ object PluginManager {
         loggerField.isAccessible = true
         val enableField = clazz.getDeclaredField("enable")
         enableField.isAccessible = true
+        val nameField = clazz.getDeclaredField("name")
+        nameField.isAccessible = true
         plugins.forEach {
             val info = it.javaClass.getAnnotation(PluginInfo::class.java) as PluginInfo
             MangoFramework.logger.log("Loading plugin ${info.name}...")
             loggerField.set(it, Logger(info.name))
+            nameField.set(it, info.name)
             enableField.set(it, true)
             it.onEnable()
+        }
+    }
+
+    fun disableAllPlugin() {
+        this.plugins.forEach {
+            MangoFramework.logger.log("Unloading plugin ${it.getName()}...")
+            it.onDisable()
         }
     }
 

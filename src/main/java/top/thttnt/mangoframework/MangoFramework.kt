@@ -18,8 +18,16 @@ object MangoFramework {
         Config.init()
         PluginManager.loadAll()
         logger.log("MangoFramework is made for built your custom server. We are still working on it, so it maybe unstable. Thank for your supporting. ")
-        logger.log("Done!(time: ${(System.currentTimeMillis() - start).toDouble()/1000}s)")
+        logger.log("Done!(time: ${(System.currentTimeMillis() - start).toDouble() / 1000}s)")
         CommandManager.listen()
+    }
+
+    fun shutdown() {
+        logger.log("MangoFramework is stopping...")
+        logger.log("Unloading plugins...")
+        PluginManager.disableAllPlugin()
+        logger.log("MangoFramework has been stopped!")
+        System.exit(0)
     }
 }
 

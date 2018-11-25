@@ -2,7 +2,6 @@ package top.thttnt.mangoframework.command
 
 import top.thttnt.mangoframework.MangoFramework
 import java.util.*
-import kotlin.collections.HashMap
 
 object CommandManager {
 
@@ -16,15 +15,15 @@ object CommandManager {
         }
     }
 
-    fun getCommands(){
-
+    fun getCommands(): MutableSet<String> {
+        return commandExecutors.keys;
     }
 
     fun handleCommand(cmd: String) {
         var tmp = ""
         var label = ""
-        var args = Array<String>(0) { "" }
-        cmd.toCharArray().forEach {
+        var args = Array(0) { "" }
+        ("$cmd ").toCharArray().forEach {
             if (it == ' ') {
                 if (tmp.isNotEmpty()) {
                     if (label.isEmpty()) {
@@ -41,7 +40,7 @@ object CommandManager {
         execute(label, cmd, args)
     }
 
-    fun execute(label: String,cmd: String,args: Array<String>){
+    fun execute(label: String, cmd: String, args: Array<String>) {
         if (!commandExecutors.containsKey(label)) {
             MangoFramework.logger.log("Command not found!")
         }
