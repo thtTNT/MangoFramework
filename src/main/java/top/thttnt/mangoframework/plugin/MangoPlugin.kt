@@ -15,7 +15,8 @@ open class MangoPlugin {
     }
 
     fun getName(): String {
-        return this.name
+        val info =  this.javaClass.getAnnotation(PluginInfo::class.java)!!
+        return info.name
     }
 
     open fun onEnable() {

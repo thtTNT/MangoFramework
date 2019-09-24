@@ -3,47 +3,34 @@ package top.thttnt.mangoframework.configuration
 import org.yaml.snakeyaml.Yaml
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.PrintWriter
 
-class FileConfiguration(private val map: HashMap<String, Any>) {
+@Suppress("UNCHECKED_CAST")
+class FileConfiguration(private val map: HashMap<String, Any>, val file: File) : ConfigurationSection(map) {
 
     companion object {
         fun load(file: File): FileConfiguration {
             if (!file.exists()) {
-                return FileConfiguration(HashMap())
+                return FileConfiguration(HashMap(), file)
             }
             val fis = FileInputStream(file)
             val yaml = Yaml()
             val map = yaml.load(fis)
-            return FileConfiguration(map as HashMap<String, Any>)
+            return FileConfiguration(map as HashMap<String, Any>, file)
         }
     }
 
-    fun contain(key: String): Boolean {
-        return map.containsKey(key)
+    fun save() {
+        saveTo(file)
     }
 
-    fun get(key: String): Any? {
-        return this.map[key]
+    fun saveTo(to: File){
+        val yaml = Yaml()
+        val str = yaml.dump(map)
+        val pw = PrintWriter(FileOutputStream(to))
+        to.delete()
+        pw.println(str)
+        pw.close()
     }
-
-    fun set(key: String, value: Any) {
-        this.map[key] = value
-    }
-
-    fun getInt(key: String): Int? {
-        return if (contain(key) && this.map[key] is Int) {
-            this.map[key] as Int
-        } else {
-            0
-        }
-    }
-
-    fun getSection(key: String): FileConfiguration? {
-        return if (contain(key) && this.map[key] is HashMap<*, *>) {
-            FileConfiguration(this.map[key] as HashMap<String, Any>)
-        } else {
-            null
-        }
-    }
-
 }

@@ -22,10 +22,10 @@ object CommandManager {
         return commandExecutors.keys
     }
 
-    fun handleCommand(cmd: String) {
+    private fun handleCommand(cmd: String) {
         var tmp = ""
         var label = ""
-        var args = Array(0) { "" }
+        val args = Array(0) { "" }
         ("$cmd ").toCharArray().forEach {
             if (it == ' ') {
                 if (tmp.isNotEmpty()) {

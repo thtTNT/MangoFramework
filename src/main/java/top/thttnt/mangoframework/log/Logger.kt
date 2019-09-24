@@ -11,18 +11,18 @@ class Logger(private val name: String) {
     fun log(msg: String) {
         val sdf = SimpleDateFormat("HH:mm:ss")
         val time = sdf.format(System.currentTimeMillis())
-        System.out.println("[$time][INFO][$name]$msg")
+        println("[$time][INFO][$name]$msg")
     }
 
     fun warn(msg: String) {
         val sdf = SimpleDateFormat("HH:mm:ss")
         val time = sdf.format(System.currentTimeMillis())
-        System.out.println("[$time][WARN][$name]$msg")
+        println("[$time][WARN][$name]$msg")
     }
 
     fun error(msg: String) {
         val sdf = SimpleDateFormat("HH:mm:ss")
         val time = sdf.format(System.currentTimeMillis())
-        System.out.println("[$time][ERROR][$name]$msg")
+        println("[$time][ERROR][$name]$msg")
     }
 }
